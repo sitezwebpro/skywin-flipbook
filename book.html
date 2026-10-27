@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skywin Tour & Travels – Company Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b2a4a; --teal:#0e8f8c; --gold:#c9973b; --coral:#e0553a; --paper:#fbf6ea;
+  --W:440px; --H:607px; --u:13px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;font-family:'Poppins',sans-serif;background:#7fd0f0}
+body{user-select:none;-webkit-user-select:none}
+
+/* ============ LANDING BACKGROUND (travel theme) ============ */
+.sky{position:fixed;inset:0;background:linear-gradient(180deg,#4fb6ea 0%,#9ad8f5 45%,#ffe9c2 85%,#ffd49a 100%);overflow:hidden}
+.sun{position:absolute;right:8%;top:9%;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#fff6c8 0%,#ffe27a 45%,rgba(255,226,122,0) 70%);animation:sunpulse 5s ease-in-out infinite}
+@keyframes sunpulse{50%{transform:scale(1.18);opacity:.85}}
+.cloud{position:absolute;width:150px;height:46px;background:#fff;border-radius:50px;opacity:.9;filter:drop-shadow(0 6px 8px rgba(0,0,0,.06));animation:drift linear infinite}
+.cloud::before,.cloud::after{content:'';position:absolute;background:#fff;border-radius:50%}
+.cloud::before{width:62px;height:62px;top:-28px;left:22px}
+.cloud::after{width:48px;height:48px;top:-18px;left:78px}
+@keyframes drift{from{transform:translateX(-260px)}to{transform:translateX(calc(100vw + 260px))}}
+.c1{top:12%;animation-duration:60s}
+.c2{top:26%;transform:scale(.7);animation-duration:85s;animation-delay:-30s}
+.c3{top:5%;transform:scale(.5);animation-duration:110s;animation-delay:-70s}
+.c4{top:40%;transform:scale(.9);animation-duration:75s;animation-delay:-10s;opacity:.7}
+.flyplane{position:absolute;left:0;top:0;width:46px;animation:fly 16s linear infinite}
+.flyplane svg{width:100%;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25))}
+.flytrail{position:absolute;left:0;top:0;height:3px;width:220px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.95));border-radius:3px;animation:fly 16s linear infinite;transform-origin:right center}
+@keyframes fly{
+  0%{transform:translate(-12vw,70vh) rotate(-18deg)}
+  100%{transform:translate(110vw,8vh) rotate(-18deg)}
+}
+.flytrail{animation-name:flytrail}
+@keyframes flytrail{
+  0%{transform:translate(-30vw,70.6vh) rotate(-18deg)}
+  100%{transform:translate(92vw,8.6vh) rotate(-18deg)}
+}
+.balloon{position:absolute;bottom:14%;left:7%;width:90px;animation:bob 6s ease-in-out infinite}
+.balloon.b2{left:auto;right:6%;bottom:30%;width:60px;animation-delay:-3s}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-26px) rotate(3deg)}}
+.sparkle{position:absolute;width:8px;height:8px;background:#fff;border-radius:50%;animation:tw 3s ease-in-out infinite;box-shadow:0 0 10px #fff}
+@keyframes tw{0%,100%{opacity:0;transform:scale(.3)}50%{opacity:1;transform:scale(1)}}
+.waves{position:absolute;left:0;right:0;bottom:0;height:90px}
+.waves svg{position:absolute;bottom:0;width:200%;height:100%;animation:wv 12s linear infinite}
+.waves svg:nth-child(2){animation-duration:18s;animation-direction:reverse;opacity:.7;bottom:-8px}
+@keyframes wv{to{transform:translateX(-50%)}}
+.compass{position:absolute;left:2.5%;top:14%;width:86px;height:86px;opacity:.9}
+.compass .ring{animation:spin 40s linear infinite;transform-origin:50% 50%}
+.compass .needle{animation:swing 4s ease-in-out infinite;transform-origin:50% 50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes swing{0%,100%{transform:rotate(-35deg)}50%{transform:rotate(35deg)}}
+
+/* header + hint */
+.brandbar{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:14px 22px;z-index:900;color:#0b2a4a}
+.brandbar b{font-family:'Playfair Display',serif;font-size:20px;letter-spacing:.14em}
+.brandbar b i{font-style:normal;color:var(--gold)}
+.brandbar span{font-size:12px;letter-spacing:.2em;font-weight:500;opacity:.8}
+.hint{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);z-index:900;background:rgba(255,255,255,.88);padding:8px 18px;border-radius:30px;font-size:13px;color:#0b2a4a;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,.15);animation:hintb 2s ease-in-out infinite;transition:opacity .4s;white-space:nowrap}
+@keyframes hintb{50%{transform:translateX(-50%) translateY(-6px)}}
+.hint.hide{opacity:0;pointer-events:none}
+
+/* ============ BOOK ============ */
+.stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;perspective:2600px;padding-bottom:50px}
+.book{position:relative;width:calc(var(--W)*2);height:var(--H);transform-style:preserve-3d;transition:transform 1s cubic-bezier(.65,.05,.35,1)}
+.mobile .book{width:var(--W)}
+.book.closed{transform:translateX(calc(var(--W) * -.5))}
+.mobile .book.closed{transform:none}
+.book.closed{animation:none}
+.book.closed .leaf[data-i="0"]{animation:bookfloat 4s ease-in-out infinite}
+@keyframes bookfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.book.closed .leaf[data-i="0"]:hover{animation:none;transform:rotateY(-24deg) translateY(-6px);cursor:pointer}
+.book.closed .leaf[data-i="0"]:hover .cover{box-shadow:0 0 0 2px rgba(255,255,255,.4),0 0 60px rgba(255,214,120,.8),0 30px 60px rgba(0,0,0,.45)}
+
+.stack{position:absolute;top:3px;height:calc(var(--H) - 6px);width:var(--W);background:#efe6cf;box-shadow:3px 2px 0 #ddd2b6,6px 4px 0 #d0c5a7,9px 6px 0 #c4b89a,0 28px 50px rgba(0,0,0,.35);border-radius:3px 10px 10px 3px;left:50%}
+.mobile .stack{left:0}
+.stack.l{left:0;border-radius:10px 3px 3px 10px;box-shadow:-3px 2px 0 #ddd2b6,-6px 4px 0 #d0c5a7,-9px 6px 0 #c4b89a,0 28px 50px rgba(0,0,0,.35);transition:opacity .6s;opacity:0}
+.book.open .stack.l{opacity:1}
+.mobile .stack.l{display:none}
+
+.leaf{position:absolute;top:0;left:50%;width:var(--W);height:var(--H);transform-origin:left center;transform-style:preserve-3d;transition:transform 1.25s cubic-bezier(.645,.045,.355,1),box-shadow .5s}
+.mobile .leaf{left:0}
+.leaf.flipped{transform:rotateY(-180deg)}
+.leaf.turning{z-index:500 !important}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.face.front{border-radius:2px 10px 10px 2px}
+.face.back{transform:rotateY(180deg);border-radius:10px 2px 2px 10px}
+.face.front::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.22),rgba(0,0,0,0) 7%,rgba(0,0,0,0) 94%,rgba(0,0,0,.06));z-index:50}
+.face.back::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(270deg,rgba(0,0,0,.22),rgba(0,0,0,0) 7%,rgba(0,0,0,0) 94%,rgba(0,0,0,.06));z-index:50}
+.leaf.turning .face::before{content:'';position:absolute;inset:0;background:#000;z-index:60;pointer-events:none;animation:shade 1.25s ease-in-out}
+@keyframes shade{0%,100%{opacity:0}50%{opacity:.28}}
+.leaf:not([data-i="0"]) .face{cursor:pointer}
+
+/* ============ PAGE BASICS ============ */
+.page{position:absolute;inset:0;font-size:var(--u);color:#23324a;background:radial-gradient(circle at 15% 8%,rgba(255,255,255,.8),transparent 45%),var(--paper)}
+.mobile .page{overflow-y:auto;overflow-x:hidden}
+.pad{position:relative;min-height:100%;padding:2.1em 2em 1.1em;display:flex;flex-direction:column;gap:.85em}
+.page:not(.cover):not(.fin){}
+.eyebrow{font-size:.72em;letter-spacing:.26em;color:var(--gold);font-weight:600}
+h2{font-family:'Playfair Display',serif;font-size:1.75em;line-height:1.15;color:var(--navy);margin:0;font-weight:800}
+h2 em{color:var(--gold);font-style:italic;font-weight:600}
+.page p{margin:0;font-size:.86em;line-height:1.62;color:#44546a}
+.lead{color:#5a6a80}
+.foot{margin-top:auto;display:flex;justify-content:space-between;font-size:.66em;letter-spacing:.12em;color:#a09680;border-top:1px solid #e6dcc3;padding-top:.6em}
+
+/* entrance animations */
+.a{opacity:0}
+.on .a{opacity:1;animation:rise .75s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(.55s + var(--d,0s))}
+@keyframes rise{from{opacity:0;transform:translateY(1.5em)}to{opacity:1;transform:none}}
+
+/* ---------- cover ---------- */
+.cover{background:linear-gradient(160deg,#0b2a4a 0%,#0d4a68 55%,#0e8f8c 135%);color:#fff;border-radius:2px 12px 12px 2px;transition:box-shadow .5s;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 30px 60px rgba(0,0,0,.4)}
+.cover::before{content:'';position:absolute;inset:.9em .9em .9em 1.5em;border:1px solid rgba(201,151,59,.7);border-radius:6px;pointer-events:none;z-index:2}
+.cover .spine{position:absolute;left:0;top:0;bottom:0;width:.9em;background:linear-gradient(90deg,#06182c,#0b2a4a);z-index:3}
+.cover::after{content:'';position:absolute;top:0;bottom:0;width:30%;left:-40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-18deg);animation:shine 5s ease-in-out infinite;z-index:40;pointer-events:none}
+@keyframes shine{0%{left:-40%}35%,100%{left:140%}}
+.cover-in{position:relative;z-index:4;height:100%;padding:2.2em 2.1em 2em 2.5em;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.5em}
+.c-top{font-size:.62em;letter-spacing:.28em;color:#f1cf8b;font-weight:500}
+.c-logo{margin-top:.5em}
+.c-logo h1{font-family:'Playfair Display',serif;font-weight:800;font-size:3.3em;letter-spacing:.12em;margin:0;line-height:1;background:linear-gradient(180deg,#fff,#f0d596);-webkit-background-clip:text;background-clip:text;color:transparent}
+.c-logo h3{margin:.3em 0 0;font-size:.95em;letter-spacing:.5em;color:#f1cf8b;font-weight:500}
+.c-art{width:100%;margin:.4em 0;border-radius:.7em;overflow:hidden;flex:1;min-height:6em;max-height:15em;position:relative;box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.c-art svg{position:absolute;inset:0;width:100%;height:100%}
+.c-tag{font-family:'Playfair Display',serif;font-style:italic;font-size:1.05em;line-height:1.35;color:#fff}
+.c-est{font-size:.7em;letter-spacing:.3em;color:#f1cf8b;font-weight:600}
+.c-dest{font-size:.72em;color:#cfe8ee}
+.c-prof{margin-top:.2em;font-size:.72em;letter-spacing:.35em;font-weight:600;color:#0b2a4a;background:linear-gradient(90deg,#e8c36f,#c9973b);padding:.5em 1.2em;border-radius:30px}
+.c-sub{font-size:.66em;color:#b8d6de;line-height:1.5;max-width:26em}
+.openbadge{position:absolute;right:1.7em;bottom:1.6em;z-index:10;width:5.6em;height:5.6em;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffe9a8,#e0a93f);color:#0b2a4a;font-weight:600;font-size:.75em;text-align:center;display:grid;place-items:center;line-height:1.25;box-shadow:0 8px 20px rgba(0,0,0,.4);animation:pulse 1.8s ease-in-out infinite}
+.openbadge::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(255,225,140,.8);animation:ring 1.8s ease-out infinite}
+@keyframes pulse{50%{transform:scale(1.08) rotate(-4deg)}}
+@keyframes ring{from{transform:scale(.9);opacity:1}to{transform:scale(1.5);opacity:0}}
+
+/* ---------- about ---------- */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.6em}
+.stat{background:linear-gradient(160deg,var(--navy),#0d4a68);color:#fff;border-radius:.8em;padding:.7em .5em;text-align:center;transition:.3s}
+.stat:hover{transform:translateY(-.3em) scale(1.04);box-shadow:0 10px 22px rgba(11,42,74,.35)}
+.stat small{display:block;font-size:.56em;letter-spacing:.2em;color:#f1cf8b}
+.stat b{display:block;font-family:'Playfair Display',serif;font-size:1.7em;line-height:1.25}
+.stat span{font-size:.6em;color:#bcd9e0}
+.promise{border-left:3px solid var(--gold);background:#fff;padding:.7em .9em;border-radius:0 .6em .6em 0;font-size:.82em;line-height:1.55;box-shadow:0 4px 14px rgba(0,0,0,.05)}
+.promise b{display:block;font-size:.72em;letter-spacing:.22em;color:var(--gold);margin-bottom:.2em}
+.mini-compass{position:absolute;right:1.4em;top:1.4em;width:3.6em;height:3.6em;opacity:.9}
+
+/* ---------- destinations ---------- */
+.dest{display:grid;grid-template-columns:38% 1fr;border-radius:.8em;overflow:hidden;background:#fff;border:1px solid #eadfc6;height:8.4em;transition:.35s;box-shadow:0 4px 12px rgba(0,0,0,.05)}
+.dest:hover{transform:translateY(-.3em);box-shadow:0 14px 28px rgba(11,42,74,.22);border-color:var(--gold)}
+.ph{position:relative;overflow:hidden;background:#cde}
+.ph img,.ph svg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.ph img{z-index:2}
+.dest:hover .ph img,.dest:hover .ph svg,.postcard:hover svg{transform:scale(1.14) rotate(.6deg)}
+.ph::after{content:'';position:absolute;top:0;left:-70%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);transform:skewX(-20deg);z-index:3}
+.dest:hover .ph::after{left:140%;transition:left .9s}
+.dest .tx{padding:.6em .8em;display:flex;flex-direction:column;justify-content:center;gap:.25em;min-width:0}
+.dest h3{font-family:'Playfair Display',serif;margin:0;font-size:1.25em;color:var(--navy);letter-spacing:.08em}
+.dest .sm{font-size:.7em;color:#6b7a8f;line-height:1.35}
+.dest .gs{font-size:.54em;letter-spacing:.2em;color:var(--gold);font-weight:600;margin-top:.15em}
+.chips{display:flex;flex-wrap:wrap;gap:.25em}
+.chips span{font-size:.62em;background:#f3ead2;color:#6b5420;padding:.18em .6em;border-radius:20px}
+.note{font-size:.72em;font-style:italic;color:#6b7a8f;text-align:center}
+
+/* ---------- services ---------- */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.55em}
+.card{background:#fff;border:1px solid #eadfc6;border-radius:.7em;padding:.65em .7em;transition:.3s}
+.card:hover{transform:translateY(-.25em) rotate(-.6deg);box-shadow:0 12px 24px rgba(11,42,74,.18);border-color:var(--gold)}
+.card .ic{font-size:1.45em;display:inline-block}
+.card:hover .ic{animation:hop .6s}
+@keyframes hop{30%{transform:translateY(-.35em) rotate(-10deg)}60%{transform:translateY(0) rotate(8deg)}}
+.card h4{margin:.15em 0 .15em;font-size:.82em;color:var(--navy);font-weight:600;line-height:1.25}
+.card p{font-size:.66em;line-height:1.45}
+
+/* ---------- travel types ---------- */
+.rows{display:flex;flex-direction:column;gap:.45em}
+.row{display:grid;grid-template-columns:2em 8em 1fr;align-items:center;gap:.6em;padding:.5em .7em;border-radius:.6em;background:#fff;border:1px solid #eadfc6;transition:.3s}
+.row:hover{transform:translateX(.4em);border-color:var(--gold);box-shadow:0 8px 18px rgba(0,0,0,.1)}
+.row .ic{font-size:1.4em;text-align:center}
+.row b{font-size:.8em;color:var(--navy);font-weight:600}
+.row span{font-size:.66em;color:#5a6a80;line-height:1.4}
+.flex-box{background:linear-gradient(135deg,var(--navy),#0d6a7a);color:#fff;border-radius:.8em;padding:.7em .9em}
+.flex-box b{font-size:.62em;letter-spacing:.22em;color:#f1cf8b;display:block;margin-bottom:.2em}
+.flex-box span{font-size:.72em;line-height:1.5;color:#e2f1f4}
+
+/* ---------- why ---------- */
+.why{display:grid;grid-template-columns:1fr 1fr;gap:.55em}
+.why .card .n{font-family:'Playfair Display',serif;font-size:1.5em;color:var(--gold);line-height:1}
+.working{background:#fff;border:1px dashed var(--gold);border-radius:.7em;padding:.7em .9em;font-size:.76em;line-height:1.55;color:#44546a}
+.working b{display:block;font-size:.76em;letter-spacing:.2em;color:var(--gold);margin-bottom:.2em}
+
+/* ---------- how we work ---------- */
+.steps{position:relative;display:flex;flex-direction:column;gap:.75em}
+.steps::before{content:'';position:absolute;left:1.25em;top:1.2em;bottom:1.2em;width:2px;background:repeating-linear-gradient(180deg,var(--gold) 0 6px,transparent 6px 12px);animation:dash 1.2s linear infinite;background-size:2px 12px}
+@keyframes dash{to{background-position:0 12px}}
+.step{position:relative;display:grid;grid-template-columns:2.5em 1fr;gap:.8em;align-items:start;transition:.3s}
+.step:hover{transform:translateX(.35em)}
+.dot{width:2.5em;height:2.5em;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:600;font-size:.85em;z-index:1;box-shadow:0 0 0 .3em #fbf6ea}
+.step:hover .dot{background:var(--gold)}
+.step h4{margin:.1em 0 .1em;font-size:.92em;color:var(--navy)}
+.step p{font-size:.72em}
+.tplane{position:absolute;left:.78em;top:0;width:1em;z-index:2;animation:down 5s ease-in-out infinite}
+@keyframes down{0%{top:0}100%{top:92%}}
+.tip{background:#fff;border-left:3px solid var(--teal);padding:.6em .8em;border-radius:0 .6em .6em 0;font-size:.7em;line-height:1.5;color:#44546a}
+
+/* ---------- contact ---------- */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:.55em}
+.cc{background:#fff;border:1px solid #eadfc6;border-radius:.7em;padding:.6em .75em;transition:.3s;font-size:.8em}
+.cc:hover{transform:translateY(-.25em);border-color:var(--gold);box-shadow:0 10px 22px rgba(0,0,0,.12)}
+.cc small{display:block;font-size:.62em;letter-spacing:.2em;color:var(--gold);font-weight:600;margin-bottom:.2em}
+.cc div{font-size:.88em;color:var(--navy);line-height:1.4;word-break:break-word}
+.cc.wide{grid-column:1/-1}
+.btns{display:flex;gap:.5em;flex-wrap:wrap}
+.btn{display:inline-block;text-decoration:none;font-size:.78em;font-weight:600;padding:.6em 1.2em;border-radius:30px;transition:.3s;position:relative;overflow:hidden}
+.btn.g{background:#25a35a;color:#fff}.btn.n{background:var(--navy);color:#fff}
+.btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 10px 20px rgba(0,0,0,.25)}
+.tagline{font-size:.62em;letter-spacing:.14em;color:var(--navy);font-weight:600;text-align:center}
+.disc{font-size:.58em !important;line-height:1.45 !important;color:#8a8f99 !important}
+
+/* ---------- final panel ---------- */
+.fin{background:linear-gradient(170deg,#0b2a4a,#0d5a72 70%,#0e8f8c);color:#fff;border-radius:2px 12px 12px 2px}
+.fin .pad{align-items:center;text-align:center;justify-content:center;gap:.7em}
+.fin h2{color:#f1cf8b;font-size:2.2em;letter-spacing:.06em}
+.fin .eyebrow{color:#cfe8ee}
+.fin p{color:#d4e9ee}
+.cards3{position:relative;width:100%;height:15em;margin:.6em 0}
+.postcard{position:absolute;width:11em;height:7.6em;border:.35em solid #fff;border-radius:.3em;overflow:hidden;box-shadow:0 12px 24px rgba(0,0,0,.4);transition:.45s;background:#fff}
+.postcard svg{position:absolute;inset:0;width:100%;height:100%;transition:transform .9s}
+.postcard span{position:absolute;bottom:.2em;left:0;right:0;text-align:center;font-size:.7em;font-weight:600;letter-spacing:.3em;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.7);z-index:5}
+.pc1{left:2%;top:0;transform:rotate(-9deg)}
+.pc2{left:50%;margin-left:-5.5em;top:4.3em;transform:rotate(3deg);z-index:2}
+.pc3{right:2%;top:.5em;transform:rotate(9deg)}
+.postcard:hover{transform:rotate(0) scale(1.14) translateY(-.5em);z-index:10}
+.orbit{position:absolute;inset:0;pointer-events:none}
+
+/* ============ CONTROLS ============ */
+.controls{position:fixed;left:0;right:0;bottom:16px;display:flex;justify-content:center;align-items:center;gap:14px;z-index:950}
+.cbtn{border:0;background:rgba(11,42,74,.92);color:#fff;font-family:inherit;font-size:13px;font-weight:500;padding:10px 20px;border-radius:30px;cursor:pointer;transition:.25s;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.cbtn:hover:not(:disabled){background:var(--gold);color:#0b2a4a;transform:translateY(-2px)}
+.cbtn:disabled{opacity:.35;cursor:default}
+.dots{display:flex;gap:7px;background:rgba(255,255,255,.75);padding:9px 12px;border-radius:20px}
+.dots i{width:9px;height:9px;border-radius:50%;background:#9bb3c4;cursor:pointer;transition:.3s}
+.dots i.act{background:var(--gold);transform:scale(1.35)}
+.controls.off{opacity:0;pointer-events:none}
+.controls{transition:opacity .4s}
+
+@media (max-width:820px){
+  .brandbar span{display:none}
+  .compass{display:none}
+  .cbtn{padding:9px 14px}
+  .hint{bottom:78px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ BACKGROUND SCENE ============ -->
+<div class="sky">
+  <div class="sun"></div>
+  <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div><div class="cloud c4"></div>
+
+  <svg class="compass" viewBox="0 0 100 100">
+    <g class="ring"><circle cx="50" cy="50" r="46" fill="rgba(255,255,255,.55)" stroke="#c9973b" stroke-width="3"/>
+      <g stroke="#0b2a4a" stroke-width="2"><line x1="50" y1="6" x2="50" y2="16"/><line x1="50" y1="84" x2="50" y2="94"/><line x1="6" y1="50" x2="16" y2="50"/><line x1="84" y1="50" x2="94" y2="50"/></g></g>
+    <g class="needle"><polygon points="50,14 57,50 43,50" fill="#e0553a"/><polygon points="50,86 57,50 43,50" fill="#0b2a4a"/></g>
+    <circle cx="50" cy="50" r="4" fill="#c9973b"/>
+  </svg>
+
+  <div class="flytrail"></div>
+  <div class="flyplane"><svg viewBox="0 0 24 24"><path fill="#fff" stroke="#0b2a4a" stroke-width=".6" d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></div>
+
+  <svg class="balloon" viewBox="0 0 80 110"><defs><linearGradient id="bl1" x1="0" x2="1"><stop offset="0" stop-color="#e0553a"/><stop offset=".5" stop-color="#ffd166"/><stop offset="1" stop-color="#e0553a"/></linearGradient></defs>
+    <path d="M40 4C14 4 4 26 12 44c6 12 16 20 20 26h16c4-6 14-14 20-26C76 26 66 4 40 4z" fill="url(#bl1)"/>
+    <path d="M40 4C30 20 30 54 34 70M40 4c10 16 10 50 6 66" stroke="rgba(255,255,255,.5)" fill="none"/>
+    <line x1="32" y1="70" x2="34" y2="90" stroke="#5b3a1d"/><line x1="48" y1="70" x2="46" y2="90" stroke="#5b3a1d"/>
+    <rect x="31" y="90" width="18" height="12" rx="2" fill="#8a5a2b"/></svg>
+  <svg class="balloon b2" viewBox="0 0 80 110"><defs><linearGradient id="bl2" x1="0" x2="1"><stop offset="0" stop-color="#0e8f8c"/><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#0e8f8c"/></linearGradient></defs>
+    <path d="M40 4C14 4 4 26 12 44c6 12 16 20 20 26h16c4-6 14-14 20-26C76 26 66 4 40 4z" fill="url(#bl2)"/>
+    <line x1="32" y1="70" x2="34" y2="90" stroke="#5b3a1d"/><line x1="48" y1="70" x2="46" y2="90" stroke="#5b3a1d"/>
+    <rect x="31" y="90" width="18" height="12" rx="2" fill="#8a5a2b"/></svg>
+
+  <span class="sparkle" style="left:22%;top:20%"></span><span class="sparkle" style="left:70%;top:16%;animation-delay:-1s"></span>
+  <span class="sparkle" style="left:40%;top:8%;animation-delay:-2s"></span><span class="sparkle" style="left:84%;top:40%;animation-delay:-.5s"></span>
+  <span class="sparkle" style="left:12%;top:55%;animation-delay:-1.6s"></span>
+
+  <div class="waves">
+    <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><path d="M0 40 Q75 10 150 40 T300 40 T450 40 T600 40 T750 40 T900 40 T1050 40 T1200 40 V90 H0Z" fill="#1aa3c4"/></svg>
+    <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><path d="M0 50 Q75 25 150 50 T300 50 T450 50 T600 50 T750 50 T900 50 T1050 50 T1200 50 V90 H0Z" fill="#0b6e8c"/></svg>
+  </div>
+</div>
+
+<div class="brandbar"><b>SKY<i>WIN</i></b><span>BALI • DUBAI • BAKU</span></div>
+
+<div class="stage"><div class="book closed" id="book"></div></div>
+<div class="hint" id="hint">📖 Book par click karke use kholiye</div>
+
+<div class="controls off" id="controls">
+  <button class="cbtn" id="prev">◀ Prev</button>
+  <div class="dots" id="dots"></div>
+  <button class="cbtn" id="next">Next ▶</button>
+  <button class="cbtn" id="close">✕ Close</button>
+</div>
+
+<script>
+/* ===================================================================
+   CONFIG – yahan se apni real photos laga sakte ho (Unsplash/own URL)
+   Agar photo load na ho to neeche wali illustration (SVG) apne aap dikhegi.
+=================================================================== */
+const PHOTOS = {
+  bali : "https://d1bv4heaa2n05k.cloudfront.net/user-images/1476353503275/shutterstock-302143586_main_1476353507643.jpeg",
+  dubai: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbTtyPayeBBq2G3mnHCDtP2BxyKmrp9vAYOcIDILakwMO-eBglkN0TyoI&s=10",
+  baku : "https://media1.thrillophilia.com/filestore/jtd4h94kja9o2h52wxx7b0gifwab_parla_az_bd2566fc07459657825c80c071ee6b65_j3u6c9xa72yst1reqp8f.jpg?w=753&h=450&dpr=2.0"   // yahan Baku ki photo ka URL paste kar do
+};
+
+/* ===================== SVG ILLUSTRATIONS ===================== */
+const PLANE = '<path d="M2 21l21-9L2 3v7l15 2-15 2z"/>';
+const S_BALI = `<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="gBali" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffcf7a"/><stop offset="1" stop-color="#ff6f61"/></linearGradient></defs>
+<rect width="400" height="240" fill="url(#gBali)"/><circle cx="200" cy="130" r="40" fill="#fff1b8"/>
+<rect y="172" width="400" height="70" fill="#0e6e8c"/><path d="M0 186 Q25 178 50 186 T100 186 T150 186 T200 186 T250 186 T300 186 T350 186 T400 186" stroke="#9fe3ee" stroke-width="2" fill="none" opacity=".7"/>
+<g fill="#2b1a14"><polygon points="140,215 140,84 132,84 132,96 124,96 124,108 116,108 116,120 108,120 108,134 98,134 98,215"/>
+<g transform="translate(400,0) scale(-1,1)"><polygon points="140,215 140,84 132,84 132,96 124,96 124,108 116,108 116,120 108,120 108,134 98,134 98,215"/></g></g>
+<g stroke="#0a3d2e" stroke-width="3.5" fill="none" stroke-linecap="round"><path d="M42 215 Q54 160 40 112"/><path d="M40 112 Q15 96 -2 118"/><path d="M40 112 Q30 88 8 84"/><path d="M40 112 Q58 90 82 96"/><path d="M40 112 Q64 108 76 128"/>
+<path d="M362 215 Q350 165 366 120"/><path d="M366 120 Q392 104 408 126"/><path d="M366 120 Q376 96 398 92"/><path d="M366 120 Q346 98 322 104"/></g>
+<g fill="#2b1a14" opacity=".8"><path d="M300 60q6-6 12 0q6-6 12 0" stroke="#2b1a14" fill="none" stroke-width="2"/></g></svg>`;
+const S_DUBAI = `<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="gDub" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2a6b"/><stop offset=".6" stop-color="#c06a8a"/><stop offset="1" stop-color="#ffb26b"/></linearGradient></defs>
+<rect width="400" height="240" fill="url(#gDub)"/><circle cx="90" cy="60" r="20" fill="#ffe9b0" opacity=".9"/>
+<g fill="#0c1636"><rect x="20" y="150" width="26" height="70"/><rect x="50" y="130" width="22" height="90"/><rect x="76" y="160" width="30" height="60"/><rect x="110" y="140" width="20" height="80"/>
+<rect x="268" y="150" width="24" height="70"/><rect x="340" y="140" width="28" height="80"/><rect x="370" y="160" width="30" height="60"/>
+<polygon points="200,14 202,50 206,84 210,106 216,134 224,166 232,222 168,222 176,166 184,134 190,106 194,84 198,50"/>
+<path d="M300 222 L314 96 Q346 150 342 222Z"/></g>
+<g fill="#ffd98a" opacity=".85"><rect x="26" y="160" width="3" height="3"/><rect x="36" y="172" width="3" height="3"/><rect x="56" y="145" width="3" height="3"/><rect x="62" y="170" width="3" height="3"/><rect x="346" y="160" width="3" height="3"/><rect x="200" y="100" width="2" height="3"/><rect x="204" y="140" width="2" height="3"/></g>
+<rect y="214" width="400" height="30" fill="#0a2a55"/><path d="M0 224 Q25 218 50 224 T100 224 T150 224 T200 224 T250 224 T300 224 T350 224 T400 224" stroke="#6fa8dc" stroke-width="2" fill="none" opacity=".6"/></svg>`;
+const S_BAKU = `<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="gBak" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2060"/><stop offset=".7" stop-color="#e0553a"/><stop offset="1" stop-color="#ffb26b"/></linearGradient>
+<linearGradient id="gFl" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff7a1a"/><stop offset=".6" stop-color="#ff3d3d"/><stop offset="1" stop-color="#ffd166"/></linearGradient></defs>
+<rect width="400" height="240" fill="url(#gBak)"/><circle cx="320" cy="56" r="18" fill="#fff0b8"/>
+<g fill="url(#gFl)" opacity=".95"><path d="M120 222 Q92 150 150 40 Q162 110 190 156 Q202 190 192 222Z"/><path d="M180 222 Q164 160 210 70 Q220 120 240 160 Q248 195 236 222Z" opacity=".95"/><path d="M110 222 Q84 190 116 130 Q128 170 140 190 Q144 210 136 222Z"/></g>
+<g fill="#13103a" opacity=".9"><rect x="250" y="160" width="26" height="62"/><rect x="280" y="140" width="22" height="82"/><rect x="306" y="170" width="30" height="52"/><rect x="340" y="150" width="24" height="72"/><rect x="40" y="170" width="28" height="52"/><rect x="72" y="180" width="26" height="42"/></g>
+<rect y="214" width="400" height="30" fill="#1b1850"/><path d="M0 224 Q25 218 50 224 T100 224 T150 224 T200 224 T250 224 T300 224 T350 224 T400 224" stroke="#ffb26b" stroke-width="2" fill="none" opacity=".5"/></svg>`;
+const S_COVER = `<svg viewBox="0 0 400 190" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="gCv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16406b"/><stop offset=".6" stop-color="#e08a5c"/><stop offset="1" stop-color="#ffcf7a"/></linearGradient><radialGradient id="gSn"><stop offset="0" stop-color="#fff3c0"/><stop offset="1" stop-color="#ffd166" stop-opacity="0"/></radialGradient></defs>
+<rect width="400" height="190" fill="url(#gCv)"/><circle cx="200" cy="120" r="70" fill="url(#gSn)"><animate attributeName="r" values="62;78;62" dur="4s" repeatCount="indefinite"/></circle><circle cx="200" cy="120" r="28" fill="#fff3c0"/>
+<g fill="#07162b"><polygon points="60,170 60,112 54,112 54,122 48,122 48,132 42,132 42,170"/><polygon points="40,170 40,134 34,134 34,170" opacity="0"/>
+<polygon points="200,36 201,70 204,100 208,130 214,170 186,170 192,130 196,100 199,70"/>
+<polygon points="140,170 150,110 160,170"/><rect x="100" y="140" width="14" height="30"/><rect x="118" y="128" width="12" height="42"/>
+<path d="M262 170 Q248 130 276 78 Q282 118 296 140 Q302 158 296 170Z"/><path d="M296 170 Q288 140 312 104 Q318 130 328 146 Q332 160 326 170Z"/><rect x="340" y="140" width="14" height="30"/><rect x="358" y="152" width="16" height="18"/></g>
+<rect y="168" width="400" height="30" fill="#0a2a4a"/><path d="M0 176 Q25 170 50 176 T100 176 T150 176 T200 176 T250 176 T300 176 T350 176 T400 176" stroke="#ffd98a" stroke-width="1.5" fill="none" opacity=".6"/>
+<path id="cvp" d="M-20 80 Q150 -20 420 50" fill="none" stroke="#fff" stroke-width="1.2" stroke-dasharray="4 6" opacity=".7"><animate attributeName="stroke-dashoffset" from="0" to="-40" dur="2s" repeatCount="indefinite"/></path>
+<g fill="#fff" stroke="#0b2a4a" stroke-width=".5" transform="scale(1)"><g transform="translate(-9,-9) scale(.75)">${PLANE}</g><animateMotion dur="9s" repeatCount="indefinite" rotate="auto"><mpath href="#cvp"/></animateMotion></g></svg>`;
+
+function ph(img, svg){
+  return `<div class="ph">${img?`<img src="${img}" alt="" loading="lazy" onerror="this.remove()">`:''}${svg}</div>`;
+}
+const chips = s => `<div class="chips">${s.split('•').map(x=>`<span>${x.trim()}</span>`).join('')}</div>`;
+const foot = n => `<div class="foot"><span>SKYWIN TOUR & TRAVELS</span><span>${n}</span></div>`;
+
+/* ===================== PAGES ===================== */
+const P = [];
+
+/* 0 – COVER */
+P.push(`<div class="page cover"><div class="spine"></div>
+<div class="cover-in">
+  <div class="c-top">DESTINATION MANAGEMENT • B2B PARTNERSHIPS</div>
+  <div class="c-logo"><h1>SKYWIN</h1><h3>TOUR & TRAVELS</h3></div>
+  <div class="c-art">${S_COVER}</div>
+  <div class="c-tag">Your Destination. Our Expertise.<br>Seamless Experiences.</div>
+  <div class="c-est">ESTABLISHED 2009</div>
+  <div class="c-dest">Destination services across Bali, Dubai &amp; Baku</div>
+  <div class="c-prof">COMPANY PROFILE</div>
+  <div class="c-sub">A ground-services partner for travel professionals, tour operators and corporate travel planners.</div>
+</div>
+<div class="openbadge">Click<br>to Open<br>▶</div></div>`);
+
+/* 1 – ABOUT */
+P.push(`<div class="page"><div class="pad">
+<svg class="mini-compass a" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#fff" stroke="#c9973b" stroke-width="4"/><g style="animation:swing 4s ease-in-out infinite;transform-origin:50% 50%"><polygon points="50,12 58,50 42,50" fill="#e0553a"/><polygon points="50,88 58,50 42,50" fill="#0b2a4a"/></g><circle cx="50" cy="50" r="4" fill="#c9973b"/></svg>
+<div class="eyebrow a">01 | ABOUT SKYWIN</div>
+<h2 class="a" style="max-width:88%">Travel partnerships built on <em>local destination expertise</em></h2>
+<p class="a">Skywin Tour &amp; Travels is a travel and destination management company established in 2009, serving B2B partners with destination-focused ground services in Bali, Dubai and Baku.</p>
+<p class="a">We coordinate practical, end-to-end destination arrangements to help travel agents, tour operators and corporate partners deliver smooth travel experiences for their clients. Our service scope includes transfers, hotels, sightseeing, tours, destination management packages and on-ground assistance.</p>
+<p class="a">We understand that every itinerary has its own requirements. Our approach is built around clear coordination, flexible arrangements and local destination knowledge—so partners can shape travel experiences to suit individual travellers, families, groups and corporate requirements.</p>
+<div class="stats">
+  <div class="stat a"><small>ESTABLISHED</small><b>2009</b><span>Company heritage</span></div>
+  <div class="stat a"><small>DESTINATIONS</small><b>3</b><span>Bali • Dubai • Baku</span></div>
+  <div class="stat a"><small>PARTNER FOCUS</small><b>B2B</b><span>Travel trade &amp; corporate</span></div>
+</div>
+<div class="promise a"><b>OUR PROMISE</b>A responsive, partner-minded approach to planning and coordinating destination services—supported by local expertise and a focus on reliable execution.</div>
+${foot('02')}</div></div>`);
+
+/* 2 – DESTINATIONS */
+P.push(`<div class="page"><div class="pad">
+<div class="eyebrow a">02 | OUR DESTINATIONS</div>
+<h2 class="a">Three destinations. <em>Coordinated ground support.</em></h2>
+<p class="a lead">Destination services designed to support the way travel professionals build and deliver itineraries.</p>
+<div class="dest a">${ph(PHOTOS.bali,S_BALI)}<div class="tx"><h3>BALI</h3><div class="sm">Island escapes, leisure holidays and curated experiences</div><div class="gs">GROUND SERVICES</div>${chips('Transfers • Hotels • Sightseeing • Tours • Customized DMC arrangements')}</div></div>
+<div class="dest a">${ph(PHOTOS.dubai,S_DUBAI)}<div class="tx"><h3>DUBAI</h3><div class="sm">City breaks, family holidays, luxury travel and corporate visits</div><div class="gs">GROUND SERVICES</div>${chips('Transfers • Hotels • Tours • Cruises • MICE and group arrangements')}</div></div>
+<div class="dest a">${ph(PHOTOS.baku,S_BAKU)}<div class="tx"><h3>BAKU</h3><div class="sm">City experiences, cultural discovery and tailored holiday itineraries</div><div class="gs">GROUND SERVICES</div>${chips('Transfers • Hotels • Sightseeing • Tours • Destination packages')}</div></div>
+<div class="note a">Services and availability can be tailored to the itinerary, travel dates, group size and partner requirements.</div>
+${foot('03')}</div></div>`);
+
+/* 3 – SERVICES */
+const svc = [
+ ['🚐','Transfers & Transportation','Airport transfers, point-to-point transportation and travel movement coordination.'],
+ ['🏨','Hotels & Accommodation','Hotel booking support aligned to the itinerary, traveller profile and budget requirements.'],
+ ['🗺️','Sightseeing & Tours','Destination experiences, sightseeing arrangements and tour planning.'],
+ ['🎒','DMC Packages','Destination-focused arrangements combining selected ground services into a coordinated itinerary.'],
+ ['🛂','Visa Assistance','Visa-related assistance and process guidance, subject to destination rules and applicable requirements.'],
+ ['🚢','Cruises','Cruise-related arrangements where available and suitable for the itinerary.'],
+ ['🎤','MICE & Corporate Groups','Ground coordination for meetings, incentives, conferences, events and corporate group travel.'],
+ ['🕑','24/7 On-ground Assistance','On-ground support to help partners manage traveller needs during the trip; availability to be confirmed per booking.']
+];
+P.push(`<div class="page"><div class="pad">
+<div class="eyebrow a">03 | OUR SERVICES</div>
+<h2 class="a">End-to-end <em>ground services</em></h2>
+<p class="a lead">A practical service mix to help B2B partners coordinate the essential parts of a destination journey.</p>
+<div class="grid2">${svc.map(s=>`<div class="card a"><span class="ic">${s[0]}</span><h4>${s[1]}</h4><p>${s[2]}</p></div>`).join('')}</div>
+${foot('04')}</div></div>`);
+
+/* 4 – TRAVEL STYLES */
+const ts = [
+ ['🧳','FIT Travel','Arrangements for individual travellers and couples, with itinerary elements coordinated around their plans.'],
+ ['👥','Group Travel','Ground service coordination for families, leisure groups and other organised travel parties.'],
+ ['💎','Luxury Travel','Tailored arrangements for clients seeking a more personalized travel experience, subject to destination availability.'],
+ ['👨‍👩‍👧','Family Holidays','Hotel, transfer and activity planning that considers family needs and the trip schedule.'],
+ ['💕','Honeymoon Packages','Romantic holiday arrangements with destination services tailored to the couple’s preferences.'],
+ ['🧩','Customized Packages','Flexible combinations of hotels, transfers, sightseeing, tours and other available services.']
+];
+P.push(`<div class="page"><div class="pad">
+<div class="eyebrow a">04 | TRAVEL STYLES WE SUPPORT</div>
+<h2 class="a">Flexible solutions for <em>different traveller needs</em></h2>
+<p class="a lead">Our destination services can be shaped around the purpose of travel, itinerary style and needs of the end customer.</p>
+<div class="rows">${ts.map(r=>`<div class="row a"><div class="ic">${r[0]}</div><b>${r[1]}</b><span>${r[2]}</span></div>`).join('')}</div>
+<div class="flex-box a"><b>BUILT FOR PARTNER FLEXIBILITY</b><span>Share your travel dates, destination, passenger profile and service requirements. We can then work with you to shape a suitable ground-services proposal based on availability and confirmed arrangements.</span></div>
+${foot('05')}</div></div>`);
+
+/* 5 – WHY PARTNER */
+const why = [
+ ['01','Local destination expertise','Destination-focused knowledge to help align services with the traveller’s itinerary and expectations.'],
+ ['02','End-to-end coordination','Multiple ground-service elements can be brought together around the same trip plan.'],
+ ['03','Flexible, customized planning','Service combinations can be tailored for FIT, groups, families, honeymooners and luxury travellers.'],
+ ['04','B2B partnership focus','A business-to-business approach designed around the requirements of travel agents and tour operators.'],
+ ['05','Clear service communication','Practical coordination around scope, inclusions, availability and booking details.'],
+ ['06','Established since 2009','A company heritage that reflects a long-standing presence in the travel industry.']
+];
+P.push(`<div class="page"><div class="pad">
+<div class="eyebrow a">05 | WHY PARTNER WITH US</div>
+<h2 class="a">A destination-first, <em>B2B-minded approach</em></h2>
+<p class="a lead">We aim to make it easier for travel professionals to coordinate destination arrangements with one partner-minded point of contact.</p>
+<div class="why">${why.map(w=>`<div class="card a"><div class="n">${w[0]}</div><h4>${w[1]}</h4><p>${w[2]}</p></div>`).join('')}</div>
+<div class="working a"><b>OUR WORKING STYLE</b>Listen to partner requirements → propose suitable arrangements → confirm inclusions and availability → coordinate the destination services.</div>
+${foot('06')}</div></div>`);
+
+/* 6 – HOW WE WORK */
+const hw = [
+ ['Share the brief','Destination, travel dates, passenger count, hotel category, transfer needs and tour interests.'],
+ ['Build the proposal','We align the requested services into a proposed itinerary or ground-services plan.'],
+ ['Review & confirm','Review inclusions, exclusions, availability, pricing and operational details before confirmation.'],
+ ['Coordinate the trip','Confirmed services are coordinated according to the agreed itinerary and booking terms.']
+];
+P.push(`<div class="page"><div class="pad">
+<div class="eyebrow a">06 | HOW WE WORK</div>
+<h2 class="a">A straightforward <em>booking workflow</em></h2>
+<p class="a lead">A clear brief helps us coordinate a more relevant proposal and reduces avoidable gaps in the itinerary.</p>
+<div class="steps">
+  <svg class="tplane" viewBox="0 0 24 24" style="transform:rotate(90deg)"><path fill="#e0553a" d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+  ${hw.map((s,i)=>`<div class="step a"><div class="dot">0${i+1}</div><div><h4>${s[0]}</h4><p>${s[1]}</p></div></div>`).join('')}
+</div>
+<div class="tip a">For the fastest coordination, include any special requests, accessibility needs, preferred hotel category, arrival details and emergency contact protocol in the initial brief.</div>
+${foot('07')}</div></div>`);
+
+/* 7 – CONTACT */
+P.push(`<div class="page"><div class="pad">
+<div class="eyebrow a">LET'S BUILD BETTER JOURNEYS</div>
+<h2 class="a">Partner with <em>Skywin Tour &amp; Travels</em></h2>
+<p class="a lead">For B2B enquiries, destination service requests and customized ground arrangements, contact our team.</p>
+<div class="contact-grid">
+  <div class="cc a"><small>PHONE / WHATSAPP</small><div>9311059569</div></div>
+  <div class="cc a"><small>DESTINATIONS</small><div>Bali • Dubai • Baku</div></div>
+  <div class="cc wide a"><small>EMAIL</small><div>skywintourntravels@gmail.com</div></div>
+  <div class="cc wide a"><small>OFFICE</small><div>G-15, Suneja Tower 1, District Centre, Janakpuri, New Delhi, India</div></div>
+</div>
+<div class="btns a"><a class="btn g" href="https://wa.me/919311059569" target="_blank" rel="noopener">💬 WhatsApp</a><a class="btn n" href="tel:+919311059569">📞 Call</a><a class="btn n" href="mailto:skywintourntravels@gmail.com">✉️ Email</a></div>
+<div class="tagline a">YOUR DESTINATION. OUR EXPERTISE. SEAMLESS EXPERIENCES.</div>
+<p class="disc a">Service scope, availability, rates and operating arrangements are subject to confirmation at the time of enquiry and booking. Visa-related assistance does not guarantee visa approval. Any 24/7 support commitment should be confirmed for the relevant booking.</p>
+${foot('08')}</div></div>`);
+
+/* 8 – FINAL PANEL */
+P.push(`<div class="page fin"><div class="pad">
+<div class="eyebrow a">THANK YOU</div>
+<h2 class="a">Bon Voyage!</h2>
+<div class="cards3 a">
+  <svg class="orbit" viewBox="0 0 300 220" preserveAspectRatio="none"><path id="orb" d="M20 150 Q150 -40 280 130" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.4" stroke-dasharray="4 6"><animate attributeName="stroke-dashoffset" from="0" to="-40" dur="2s" repeatCount="indefinite"/></path>
+  <g fill="#fff"><g transform="translate(-8,-8) scale(.7)">${PLANE}</g><animateMotion dur="6s" repeatCount="indefinite" rotate="auto"><mpath href="#orb"/></animateMotion></g></svg>
+  <div class="postcard pc1">${S_BALI}<span>BALI</span></div>
+  <div class="postcard pc2">${S_DUBAI}<span>DUBAI</span></div>
+  <div class="postcard pc3">${S_BAKU}<span>BAKU</span></div>
+</div>
+<p class="a">Seamless destination experiences,<br>coordinated end to end.</p>
+<div class="tagline a" style="color:#f1cf8b">SKYWIN TOUR &amp; TRAVELS | ESTABLISHED 2009</div>
+</div></div>`);
+
+/* ===================== BOOK ENGINE ===================== */
+const book = document.getElementById('book');
+const hint = document.getElementById('hint');
+const controls = document.getElementById('controls');
+const dotsEl = document.getElementById('dots');
+let mobile = false, state = 0, maxState = 4, leaves = [];
+
+function layout(){
+  const vw = innerWidth, vh = innerHeight;
+  const wasMobile = mobile;
+  mobile = vw < 820;
+  let W, H, u;
+  if(mobile){
+    W = Math.min(vw*0.94, 480);
+    H = Math.max(420, Math.min(vh - 150, W*1.85));
+    u = Math.max(12.5, W*0.037);
+  } else {
+    W = Math.min(vw*0.455, (vh-130)/1.38, 580);
+    H = W*1.38;
+    u = W*0.03;
+  }
+  const r = document.documentElement.style;
+  r.setProperty('--W', W+'px'); r.setProperty('--H', H+'px'); r.setProperty('--u', u+'px');
+  document.body.classList.toggle('mobile', mobile);
+  return wasMobile !== mobile;
+}
+
+function build(){
+  book.innerHTML = '<div class="stack l"></div><div class="stack"></div>';
+  let list;
+  if(mobile){ list = P.map(p=>({f:p,b:''})); }
+  else { list = [0,1,2,3,4].map(i=>({f:P[2*i], b:P[2*i+1]||''})); }
+  maxState = list.length-1;
+  leaves = list.map((o,i)=>{
+    const el = document.createElement('div');
+    el.className='leaf'; el.dataset.i=i;
+    el.innerHTML = `<div class="face front">${o.f}</div><div class="face back">${o.b || '<div class="page"></div>'}</div>`;
+    book.appendChild(el);
+    el.querySelectorAll('.a').forEach((n,k)=>n.style.setProperty('--d', (k*0.08)+'s'));
+    return el;
+  });
+  dotsEl.innerHTML = list.map((_,i)=>`<i data-s="${i}"></i>`).join('');
+  apply(true);
+}
+
+function apply(initial){
+  leaves.forEach((el,i)=>{
+    const flipped = i < state;
+    const was = el.classList.contains('flipped');
+    if(flipped !== was && !initial){
+      el.classList.add('turning');
+      setTimeout(()=>el.classList.remove('turning'),1300);
+    }
+    el.classList.toggle('flipped', flipped);
+    el.style.zIndex = flipped ? (i+1) : (leaves.length - i);
+  });
+  book.classList.toggle('closed', state===0);
+  book.classList.toggle('open', state>0);
+  // which pages are visible -> animate their contents
+  document.querySelectorAll('.page.on').forEach(p=>p.classList.remove('on'));
+  const show = [];
+  if(!mobile && state>0) show.push(leaves[state-1].querySelector('.back .page'));
+  if(state<=maxState) show.push(leaves[state].querySelector('.front .page'));
+  setTimeout(()=>show.forEach(p=>p&&p.classList.add('on')), initial?0:30);
+  // controls
+  controls.classList.toggle('off', state===0);
+  hint.classList.toggle('hide', state>0);
+  document.getElementById('prev').disabled = state===0;
+  document.getElementById('next').disabled = state>=maxState;
+  [...dotsEl.children].forEach((d,i)=>d.classList.toggle('act', i===state));
+}
+
+function go(n){
+  n = Math.max(0, Math.min(maxState, n));
+  if(n===state) return;
+  state = n; apply(false);
+}
+
+book.addEventListener('click', e=>{
+  if(e.target.closest('a,button')) return;
+  const leaf = e.target.closest('.leaf'); if(!leaf) return;
+  const i = +leaf.dataset.i;
+  if(i === state) go(state+1);
+  else if(i === state-1) go(state-1);
+});
+document.getElementById('next').onclick = ()=>go(state+1);
+document.getElementById('prev').onclick = ()=>go(state-1);
+document.getElementById('close').onclick = ()=>go(0);
+dotsEl.addEventListener('click', e=>{ const s=e.target.dataset.s; if(s!==undefined) go(+s); });
+addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight') go(state+1);
+  else if(e.key==='ArrowLeft') go(state-1);
+  else if(e.key==='Escape') go(0);
+});
+let tx=0, ty=0;
+addEventListener('touchstart', e=>{ tx=e.touches[0].clientX; ty=e.touches[0].clientY; },{passive:true});
+addEventListener('touchend', e=>{
+  const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+  if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.3){ dx<0 ? go(state+1) : go(state-1); }
+},{passive:true});
+
+let rt;
+addEventListener('resize', ()=>{
+  clearTimeout(rt);
+  rt = setTimeout(()=>{ const changed = layout(); if(changed){ state=0; build(); } }, 120);
+});
+
+layout(); build();
+</script>
+</body>
+</html>
